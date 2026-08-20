@@ -1,0 +1,17 @@
+name: FRONTIERSAT
+norad: 69015
+data:
+  &tlm Telemetry:
+    unknown
+transmitters:
+  9k6 FSK downlink:
+    frequency: 436.150e+6
+    modulation: FSK
+    baudrate: 9600
+    deviation: 3200
+    framing: AX100 ASM+Golay
+    data:
+    - *tlm
+
+# AX100 Configuration: https://github.com/CalgaryToSpace/CTS-SAT-1-Ground-Station/blob/main/docs/AX100_Config_Dump.txt
+
