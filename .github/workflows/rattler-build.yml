@@ -1,0 +1,60 @@
+# Builds recipe/recipe.yaml and uploads to prefix.dev
+name: Rattler Build (gr-satellites)
+
+on:
+  push:
+    branches: [brett/rattler-recipe]
+  workflow_dispatch:
+
+concurrency:
+  group: rattler-build-gr-satellites-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux-64
+            os: ubuntu-24.04
+          - platform: osx-arm64
+            os: macos-26
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Install rattler-build
+        uses: mamba-org/setup-micromamba@v3
+        with:
+          environment-name: rattler-build-env
+          create-args: -c conda-forge rattler-build=0.76.0
+
+      - name: Build gr-satellites conda package
+        shell: micromamba-shell {0}
+        run: |
+          rattler-build build \
+            --recipe recipe/recipe.yaml \
+            --variant-config recipe/conda_build_config.yaml \
+            --output-dir output \
+            -c https://prefix.dev/cascade \
+            -c conda-forge
+
+      - name: Upload built package (workflow artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: gnuradio-satellites-conda-package-${{ matrix.platform }}
+          path: output/${{ matrix.platform }}/*.conda
+          if-no-files-found: error
+
+      - name: Publish to prefix.dev (cascade channel)
+        shell: micromamba-shell {0}
+        run: |
+          rattler-build upload prefix -c cascade output/${{ matrix.platform }}/*.conda

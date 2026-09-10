@@ -2,3 +2,7 @@
 apps/*.py
 __pycache__
 build
+
+# Local rattler-build recipe testing artifacts (recipe/)
+/env/
+/output/

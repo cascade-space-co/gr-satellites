@@ -1,0 +1,15 @@
+# Minimal variant config for Linux builds. conda-forge feedstocks get this
+# (plus a huge amount more) for free from conda-forge-pinning; since we're
+# deliberately not using that machinery, we supply just enough to compile.
+c_compiler:
+  - gcc                        # [linux]
+  - clang                      # [osx]
+cxx_compiler:
+  - gxx                        # [linux]
+  - clangxx                    # [osx]
+c_stdlib:
+  - sysroot                    # [linux]
+  - macosx_deployment_target   # [osx]
+c_stdlib_version:              # [unix]
+  - "2.17"                     # [linux]
+  - "15.0"                     # [osx]

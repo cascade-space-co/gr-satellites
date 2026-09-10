@@ -1,0 +1,63 @@
+context:
+  name: gnuradio-satellites
+  version: "5.10.0+cascade.48961c25"
+
+package:
+  name: ${{ name }}
+  version: ${{ version }}
+
+source:
+  # Build from this checkout rather than a released tarball
+  path: ..
+
+build:
+  number: 1
+  script: build.sh
+
+requirements:
+  run_exports:
+    - ${{ pin_subpackage("gnuradio-satellites", upper_bound="x.x") }}
+  build:
+    - ${{ compiler("c") }}
+    - ${{ compiler("cxx") }}
+    - ${{ stdlib("c") }}
+    - cmake
+    - make
+    - ninja
+    - pkg-config
+  host:
+    - libboost-devel
+    - fmt
+    - gmp
+    - gnuradio-core
+    - pybind11
+    - python 3.12.*
+    - numpy
+    - spdlog
+    - volk
+  run:
+    - construct >=2.9
+    - gnuradio-zeromq
+    - matplotlib-base
+    - numpy
+    - python
+    - pyyaml
+    - requests
+    - websocket-client
+
+tests:
+  - script:
+      - test -f "$PREFIX/bin/gr_satellites"
+      - test -f "$PREFIX/bin/gr_satellites_ssdv"
+      - test -f "$PREFIX/bin/smog_p_spectrum"
+      - test -f "$PREFIX/include/satellites/api.h"
+      - test -f "$PREFIX/lib/libgnuradio-satellites${SHLIB_EXT}"
+      - test -f "$PREFIX/share/gnuradio/grc/blocks/satellites_decode_rs.block.yml"
+      - python -c "import satellites"
+
+about:
+  homepage: https://github.com/daniestevez/gr-satellites
+  repository: https://github.com/cascade-space-co/gr-satellites
+  license: GPL-3.0-or-later
+  license_file: LICENSE
+  summary: A collection of decoders for Amateur satellites (Cascade internal build)
