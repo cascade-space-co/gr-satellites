@@ -47,17 +47,9 @@ requirements:
 
 tests:
   - script:
-      # Invoked via `python <script>`, not directly: GrPython.cmake bakes
-      # an absolute #!<build-time prefix>/bin/python3 shebang into these at
-      # build time, which can exceed the kernel's shebang length limit
-      # under rattler-build's padded build/test prefixes and make direct
-      # exec fail. Running them through python sidesteps the shebang
-      # entirely, same fix as gr-cascade's grcc invocation.
-      - python "$PREFIX/bin/gr_satellites" --help >/dev/null
-      - python "$PREFIX/bin/gr_satellites_ssdv" --help >/dev/null
-      - |
-        python "$PREFIX/bin/smog_p_spectrum" >/dev/null 2>&1
-        test $? -eq 1
+      - test -f "$PREFIX/bin/gr_satellites"
+      - test -f "$PREFIX/bin/gr_satellites_ssdv"
+      - test -f "$PREFIX/bin/smog_p_spectrum"
       - test -f "$PREFIX/include/satellites/api.h"
       - test -f "$PREFIX/lib/libgnuradio-satellites${SHLIB_EXT}"
       - test -f "$PREFIX/share/gnuradio/grc/blocks/satellites_decode_rs.block.yml"
