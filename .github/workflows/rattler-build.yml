@@ -1,4 +1,4 @@
-# Builds recipe/recipe.yaml and uploads to prefix.dev
+# Builds .conda/cascade-recipe/recipe.yaml and uploads to prefix.dev
 name: Rattler Build (gr-satellites)
 
 on:
@@ -41,8 +41,8 @@ jobs:
         shell: micromamba-shell {0}
         run: |
           rattler-build build \
-            --recipe recipe/recipe.yaml \
-            --variant-config recipe/conda_build_config.yaml \
+            --recipe .conda/cascade-recipe/recipe.yaml \
+            --variant-config .conda/cascade-recipe/conda_build_config.yaml \
             --output-dir output \
             -c https://prefix.dev/cascade \
             -c conda-forge
