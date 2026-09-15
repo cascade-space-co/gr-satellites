@@ -2,5 +2,3 @@
 apps/*.py
 __pycache__
 build
-
-/env/
