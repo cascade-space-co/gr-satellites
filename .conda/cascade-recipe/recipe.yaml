@@ -1,6 +1,6 @@
 context:
   name: gnuradio-satellites
-  version: "5.10.0+cascade.48961c25"
+  version: ${{ env.get("RECIPE_VERSION") }}
 
 package:
   name: ${{ name }}
