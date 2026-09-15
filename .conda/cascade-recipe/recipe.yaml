@@ -11,7 +11,7 @@ source:
   path: ../..
 
 build:
-  number: 3
+  number: 0
   script: build.sh
 
 requirements:
