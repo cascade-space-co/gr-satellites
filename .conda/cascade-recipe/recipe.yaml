@@ -29,7 +29,7 @@ requirements:
     - libboost-devel
     - fmt
     - gmp
-    - gnuradio-core
+    - gnuradio-core >=3.11.0.0
     - pybind11
     - python 3.12.*
     - numpy
