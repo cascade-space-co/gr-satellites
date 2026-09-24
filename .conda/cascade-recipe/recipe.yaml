@@ -11,7 +11,7 @@ source:
   path: ../..
 
 build:
-  number: 0
+  number: 1
   script: build.sh
 
 requirements:
@@ -26,7 +26,9 @@ requirements:
     - ninja
     - pkg-config
   host:
-    - libboost-devel
+    # Pinned to match what uhd 4.9.x's current builds require, so an OOT
+    # module linking against both doesn't hit an unsatisfiable solve.
+    - libboost-devel ==1.88.0
     - fmt
     - gmp
     - gnuradio-core >=3.11.0.0a0
