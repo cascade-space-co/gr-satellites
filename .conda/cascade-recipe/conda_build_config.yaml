@@ -7,6 +7,12 @@ c_compiler:
 cxx_compiler:
   - gxx                        # [linux]
   - clangxx                    # [osx]
+# Capped below 16 on Linux, matching gnuradio's own compiler pin -- CUDA
+# 13.0's nvcc (gr-cuda) doesn't support gcc 16 as a host compiler.
+c_compiler_version:
+  - "15"                       # [linux]
+cxx_compiler_version:
+  - "15"                       # [linux]
 c_stdlib:
   - sysroot                    # [linux]
   - macosx_deployment_target   # [osx]
